@@ -6,7 +6,11 @@ activity_dict = {}
 
 hash = lambda x: hashlib.sha1(x.encode('utf-8')).hexdigest()
 
-"""
+try:
+    os.makedirs(os.path.join('out','activities'))
+except FileExistsError:
+    pass
+
 for root, dirs, files in os.walk('./data-annualreport'):
     for fname in files:
         try:
@@ -20,7 +24,6 @@ for root, dirs, files in os.walk('./data-annualreport'):
                     fp.write(etree.tostring(activity))
             except AttributeError:
                 pass
-"""
 
 for root, dirs, files in os.walk('./data-annualreport'):
     try:
