@@ -2,6 +2,39 @@ import os
 from lxml import etree
 import hashlib
 
+"""
+The purpose of this code is to "bubble" all fields down to the deepest hierarchy.
+
+E.g.
+
+    <iati-activity hierarchy="1">
+        <reporting-org ref="PUB">
+        <iati-identifier>PUB-1</iati-identifier>
+        <sector code="13040"/>
+    </iati-activity>
+    <iati-activity hierarchy="2">
+        <iati-identifier>PUB-2</iati-identifier>
+        <related-activity type="1" ref="PUB-1" />
+    </iati-activity>
+
+becomes:
+
+    <iati-activity hierarchy="1">
+        <reporting-org ref="PUB">
+        <iati-identifier>PUB-1</iati-identifier>
+        <sector code="13040"/>
+    </iati-activity>
+    <iati-activity hierarchy="2">
+        <iati-identifier>PUB-2</iati-identifier>
+        <related-activity type="1" ref="PUB-1" />
+        <sector code="13040"/>
+    </iati-activity>
+
+This code was created by Ben Webb, and is released under CC0
+http://creativecommons.org/publicdomain/zero/1.0/
+
+"""
+
 activity_dict = {}
 
 hash = lambda x: hashlib.sha1(x.encode('utf-8')).hexdigest()
